@@ -20,7 +20,7 @@ export const useDiceGame = () => {
   const [draggedId, setDraggedId] = useState<number | null>(null);
   const [dragOverId, setDragOverId] = useState<number | null>(null);
   const [score, setScore] = useState(0);
-  const [theme, setTheme] = useState('Default');
+  const [theme, setTheme] = useState<Theme>('Default');
   
   // Advanced Options State
   const [showOptions, setShowOptions] = useState(false);
@@ -30,7 +30,8 @@ export const useDiceGame = () => {
 
   const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
   
-  const themes = {
+  type Theme = 'Default' | 'Ocean' | 'Sunset';
+  const themes: Record<Theme, string> = {
     Default: 'from-indigo-500 to-purple-600',
     Ocean: 'from-cyan-500 to-blue-500',
     Sunset: 'from-red-500 to-yellow-500',

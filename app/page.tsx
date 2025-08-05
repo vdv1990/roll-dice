@@ -37,7 +37,7 @@ export default function App() {
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
 
       <div className={`min-h-screen flex items-center justify-center p-4 font-['Nunito',sans-serif] bg-gradient-to-br ${themes[theme]}`}>
@@ -56,8 +56,8 @@ export default function App() {
             <div className="flex items-center">
               <label className="text-gray-700 mr-3">Number of Dice:</label>
               <StyledSelect
-                options={[1, 2, 3, 4, 5, 6].map(n => ({ value: n, label: String(n) }))}
-                value={numDice}
+                options={[1, 2, 3, 4, 5, 6].map(n => ({ value: String(n), label: String(n) }))}
+                value={String(numDice)}
                 onChange={(value) => setNumDice(Number(value))}
               />
             </div>
