@@ -1,18 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+
+const MIN_DICE_COUNT = 1;
+const MAX_DICE_COUNT = 10;
+const DICE_SIDES = 6;
 
 export default function Home() {
-  const [diceCount, setDiceCount] = useState(1);
+  const [diceCount, setDiceCount] = useState(MIN_DICE_COUNT);
   const [diceValues, setDiceValues] = useState<number[]>([]);
-  const [total, setTotal] = useState(0);
+
+  // The total is derived from diceValues, so it doesn't need its own state.
+  // useMemo will re-calculate the total only when diceValues changes.
+  const total = useMemo(
+    () => diceValues.reduce((sum, val) => sum + val, 0),
+    [diceValues]
+  );
 
   const rollDice = () => {
-    const newDiceValues = Array.from({ length: diceCount }, () =>
-      Math.floor(Math.random() * 6) + 1
+    const newDiceValues = Array.from(
+      { length: diceCount },
+      () => Math.floor(Math.random() * DICE_SIDES) + 1
     );
     setDiceValues(newDiceValues);
-    setTotal(newDiceValues.reduce((sum, val) => sum + val, 0));
   };
 
   return (
@@ -26,8 +36,8 @@ export default function Home() {
         <input
           id="dice-count"
           type="number"
-          min="1"
-          max="5"
+          min={MIN_DICE_COUNT}
+          max={MAX_DICE_COUNT}
           value={diceCount}
           onChange={(e) => setDiceCount(Number(e.target.value))}
           className="w-16 p-2 border rounded"
@@ -43,17 +53,23 @@ export default function Home() {
 
       {diceValues.length > 0 && (
         <div className="flex flex-col items-center">
-          <div className="flex gap-4 mb-4">
+          <div
+            className="flex flex-wrap justify-center gap-4 mb-4"
+            role="group"
+            aria-label="Dice values"
+          >
             {diceValues.map((value, i) => (
               <div
                 key={i}
                 className="w-24 h-24 border-2 border-gray-300 rounded-lg flex items-center justify-center text-4xl font-bold"
+                aria-label={`Dice ${i + 1} shows ${value}`}
+                role="img"
               >
                 {value}
               </div>
             ))}
           </div>
-          <p className="text-2xl">Total: {total}</p>
+          <p className="text-2xl" aria-live="polite">Total: {total}</p>
         </div>
       )}
     </main>
