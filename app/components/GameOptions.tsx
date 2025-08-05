@@ -2,10 +2,7 @@
 import React from 'react';
 import StyledSelect from './StyledSelect';
 import ToggleSwitch from './ToggleSwitch';
-
-interface Theme {
-  [key: string]: string;
-}
+import { Theme } from './types';
 
 interface GameOptionsProps {
   showOptions: boolean;
@@ -16,9 +13,9 @@ interface GameOptionsProps {
   setMaxRollsSelection: (value: string) => void;
   customMaxRolls: number;
   setCustomMaxRolls: (value: number) => void;
-  themes: Theme;
-  theme: string;
-  setTheme: (theme: string) => void;
+  themes: Record<Theme, string>;
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
 }
 
 const GameOptions: React.FC<GameOptionsProps> = ({ 
@@ -68,7 +65,7 @@ const GameOptions: React.FC<GameOptionsProps> = ({
                     <StyledSelect
                         options={Object.keys(themes).map(t => ({ value: t, label: t }))}
                         value={theme}
-                        onChange={(value) => setTheme(value)}
+                        onChange={(value) => setTheme(value as Theme)}
                     />
                 </div>
             </div>

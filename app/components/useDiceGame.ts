@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { Theme } from './types';
 
 interface Die {
   id: number;
@@ -30,7 +31,7 @@ export const useDiceGame = () => {
 
   const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
   
-  type Theme = 'Default' | 'Ocean' | 'Sunset';
+  export type Theme = 'Default' | 'Ocean' | 'Sunset';
   const themes: Record<Theme, string> = {
     Default: 'from-indigo-500 to-purple-600',
     Ocean: 'from-cyan-500 to-blue-500',
