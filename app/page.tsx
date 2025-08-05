@@ -1,77 +1,117 @@
-"use client";
+'use client';
+import React from 'react';
+import Die from './components/Die';
+import StyledSelect from './components/StyledSelect';
+import GameOptions from './components/GameOptions';
+import { useDiceGame } from './components/useDiceGame';
 
-import { useState, useMemo } from "react";
-
-const MIN_DICE_COUNT = 1;
-const MAX_DICE_COUNT = 10;
-const DICE_SIDES = 6;
-
-export default function Home() {
-  const [diceCount, setDiceCount] = useState(MIN_DICE_COUNT);
-  const [diceValues, setDiceValues] = useState<number[]>([]);
-
-  // The total is derived from diceValues, so it doesn't need its own state.
-  // useMemo will re-calculate the total only when diceValues changes.
-  const total = useMemo(
-    () => diceValues.reduce((sum, val) => sum + val, 0),
-    [diceValues]
-  );
-
-  const rollDice = () => {
-    const newDiceValues = Array.from(
-      { length: diceCount },
-      () => Math.floor(Math.random() * DICE_SIDES) + 1
-    );
-    setDiceValues(newDiceValues);
-  };
+export default function App() {
+  const {
+    numDice, setNumDice,
+    dice,
+    frozenIds,
+    currentRoll,
+    maxRolls,
+    isRolling,
+    draggedId,
+    dragOverId,
+    score,
+    theme,
+    themes,
+    showOptions, setShowOptions,
+    limitEnabled, setLimitEnabled,
+    maxRollsSelection, setMaxRollsSelection,
+    customMaxRolls, setCustomMaxRolls,
+    diceFaces,
+    handleDragStart,
+    handleDragOver,
+    handleDragEnter,
+    handleDragEnd,
+    handleDrop,
+    startNewGame,
+    rollDice,
+    toggleFreeze,
+    setTheme
+  } = useDiceGame();
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen p-8">
-      <h1 className="text-4xl font-bold mb-8">Dice Roller</h1>
+    <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+      <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
 
-      <div className="flex items-center mb-4">
-        <label htmlFor="dice-count" className="mr-2">
-          Number of Dice:
-        </label>
-        <input
-          id="dice-count"
-          type="number"
-          min={MIN_DICE_COUNT}
-          max={MAX_DICE_COUNT}
-          value={diceCount}
-          onChange={(e) => setDiceCount(Number(e.target.value))}
-          className="w-16 p-2 border rounded"
-        />
-      </div>
+      <div className={`min-h-screen flex items-center justify-center p-4 font-['Nunito',sans-serif] bg-gradient-to-br ${themes[theme]}`}>
+        <div className="w-full max-w-2xl bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl p-8 text-center">
+          
+          <h1 className="text-5xl font-bold text-gray-800 mb-2">Roll the Dice</h1>
+          
+          <div className="text-lg text-gray-600 font-semibold mb-1 min-h-[28px]">
+            {maxRolls === Infinity ? `Roll: ${currentRoll}` : `Roll: ${currentRoll} / ${maxRolls}`}
+          </div>
+          <div className="text-lg text-gray-600 font-semibold mb-6 min-h-[28px]">
+            Total Score: {score}
+          </div>
 
-      <button
-        onClick={rollDice}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-8"
-      >
-        Roll Dice
-      </button>
+          <div className="mb-6 flex justify-center">
+            <div className="flex items-center">
+              <label className="text-gray-700 mr-3">Number of Dice:</label>
+              <StyledSelect
+                options={[1, 2, 3, 4, 5, 6].map(n => ({ value: n, label: String(n) }))}
+                value={numDice}
+                onChange={(value) => setNumDice(Number(value))}
+              />
+            </div>
+          </div>
 
-      {diceValues.length > 0 && (
-        <div className="flex flex-col items-center">
-          <div
-            className="flex flex-wrap justify-center gap-4 mb-4"
-            role="group"
-            aria-label="Dice values"
-          >
-            {diceValues.map((value, i) => (
-              <div
-                key={i}
-                className="w-24 h-24 border-2 border-gray-300 rounded-lg flex items-center justify-center text-4xl font-bold"
-                aria-label={`Dice ${i + 1} shows ${value}`}
-                role="img"
-              >
-                {value}
+          <div className="flex flex-wrap justify-center gap-4 min-h-[100px] mb-8" onDragOver={handleDragOver}>
+            {dice.map((d) => (
+              <div key={d.id} onDragEnter={() => handleDragEnter(d.id)} onDrop={() => handleDrop(d.id)}>
+                  <Die 
+                    value={diceFaces[d.value]} 
+                    isFrozen={frozenIds.has(d.id)}
+                    onClick={() => toggleFreeze(d.id)}
+                    onDragStart={() => handleDragStart(d.id)}
+                    onDragEnd={handleDragEnd}
+                    isDragging={draggedId === d.id}
+                    isDragOver={dragOverId === d.id}
+                  />
               </div>
             ))}
           </div>
-          <p className="text-2xl" aria-live="polite">Total: {total}</p>
+
+          <div className="flex justify-center gap-4 mb-4">
+            <button 
+              onClick={rollDice}
+              disabled={isRolling || currentRoll >= maxRolls}
+              className="px-8 py-3 text-lg font-semibold text-white bg-indigo-600 rounded-full shadow-lg hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105"
+            >
+              Roll the Dice
+            </button>
+            {limitEnabled && (
+              <button 
+                onClick={startNewGame}
+                className="px-8 py-3 text-lg font-semibold text-white bg-indigo-600 rounded-full shadow-lg hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105"
+              >
+                New Game
+              </button>
+            )}
+          </div>
+          
+          <GameOptions 
+            showOptions={showOptions}
+            setShowOptions={setShowOptions}
+            limitEnabled={limitEnabled}
+            setLimitEnabled={setLimitEnabled}
+            maxRollsSelection={maxRollsSelection}
+            setMaxRollsSelection={setMaxRollsSelection}
+            customMaxRolls={customMaxRolls}
+            setCustomMaxRolls={setCustomMaxRolls}
+            themes={themes}
+            theme={theme}
+            setTheme={setTheme}
+          />
         </div>
-      )}
-    </main>
+      </div>
+    </>
   );
 }
