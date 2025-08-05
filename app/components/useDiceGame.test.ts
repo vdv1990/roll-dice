@@ -155,28 +155,26 @@ describe('useDiceGame', () => {
   });
 
   it('calculates score correctly', () => {
+    // Mock Math.random() to control dice values
+    const mockMathRandom = jest.spyOn(Math, 'random').mockReturnValueOnce(0.5) // Die 1: 3 (0.5 * 6 = 3)
+                                                .mockReturnValueOnce(0.3) // Die 2: 1 (0.3 * 6 = 1)
+                                                .mockReturnValueOnce(0.1) // Die 3: 0 (0.1 * 6 = 0)
+                                                .mockReturnValueOnce(0.9) // Die 4: 5 (0.9 * 6 = 5)
+                                                .mockReturnValueOnce(0.7); // Die 5: 4 (0.7 * 6 = 4)
+
     const { result } = renderHook(() => useDiceGame());
     
-    // Mock dice values
-    const mockDice = [
-      { id: 0, value: 3 }, // 4
-      { id: 1, value: 2 }, // 3
-      { id: 2, value: 1 }, // 2
-      { id: 3, value: 5 }, // 6
-      { id: 4, value: 4 }, // 5
-    ];
+    // The initial dice values are set in startNewGame, which is called on mount
+    // The mocked Math.random will ensure these are predictable
+    expect(result.current.dice[0].value).toBe(3);
+    expect(result.current.dice[1].value).toBe(1);
+    expect(result.current.dice[2].value).toBe(0);
+    expect(result.current.dice[3].value).toBe(5);
+    expect(result.current.dice[4].value).toBe(4);
 
-    // Trigger a roll to update score
-    act(() => {
-      result.current.setDice(mockDice);
-    });
+    expect(result.current.score).toBe(18); // Sum of (value + 1) for each die
 
-    // Recalculate the score
-    act(() => {
-      result.current.calculateScore(mockDice);
-    });
-
-    expect(result.current.score).toBe(20); // Sum of (value + 1) for each die
+    mockMathRandom.mockRestore();
   });
 
   it('handles custom roll limit', () => {
