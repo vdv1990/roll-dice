@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { Theme } from './types';
+import { Theme, themes } from './types';
 
 interface Die {
   id: number;
@@ -30,13 +30,6 @@ export const useDiceGame = () => {
   const [customMaxRolls, setCustomMaxRolls] = useState(10);
 
   const diceFaces = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
-  
-  export type Theme = 'Default' | 'Ocean' | 'Sunset';
-  const themes: Record<Theme, string> = {
-    Default: 'from-indigo-500 to-purple-600',
-    Ocean: 'from-cyan-500 to-blue-500',
-    Sunset: 'from-red-500 to-yellow-500',
-  };
 
   // --- Drag and Drop Logic ---
   const handleDragStart = (id: number) => setDraggedId(id);

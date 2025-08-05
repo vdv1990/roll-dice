@@ -2,7 +2,7 @@
 import React from 'react';
 import StyledSelect from './StyledSelect';
 import ToggleSwitch from './ToggleSwitch';
-import { Theme } from './types';
+import { Theme, themes } from './types';
 
 interface GameOptionsProps {
   showOptions: boolean;
