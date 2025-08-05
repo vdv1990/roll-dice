@@ -171,9 +171,9 @@ describe('useDiceGame', () => {
       result.current.setDice(mockDice);
     });
 
-    // Start a new game to recalculate score
+    // Recalculate the score
     act(() => {
-      result.current.startNewGame();
+      result.current.calculateScore(mockDice);
     });
 
     expect(result.current.score).toBe(20); // Sum of (value + 1) for each die

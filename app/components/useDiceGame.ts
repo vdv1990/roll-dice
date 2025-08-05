@@ -107,7 +107,7 @@ export const useDiceGame = () => {
   // --- Effects ---
   useEffect(() => {
     startNewGame();
-  }, [numDice, limitEnabled, maxRollsSelection, customMaxRolls]);
+  }, [numDice, limitEnabled, maxRollsSelection, customMaxRolls, calculateScore]);
 
   return {
     numDice, setNumDice,
