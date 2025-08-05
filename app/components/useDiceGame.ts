@@ -102,7 +102,11 @@ export const useDiceGame = () => {
     if (isRolling || currentRoll === 0) return;
     setFrozenIds(prevIds => {
       const newIds = new Set(prevIds);
-      newIds.has(id) ? newIds.delete(id) : newIds.add(id);
+      if (newIds.has(id)) {
+        newIds.delete(id);
+      } else {
+        newIds.add(id);
+      }
       return newIds;
     });
   };
