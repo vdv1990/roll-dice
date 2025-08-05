@@ -27,16 +27,18 @@ describe('Die', () => {
   });
 
   it('applies the frozen styles when isFrozen is true', () => {
-    const { container } = render(<Die {...defaultProps} value="⚀" isFrozen={true} />);
-    expect(container.firstChild).toHaveClass('bg-blue-100', 'ring-2', 'ring-blue-500', 'scale-105');
+    render(<Die {...defaultProps} value="⚀" isFrozen={true} />);
+    const dieElement = screen.getByRole('button');
+    expect(dieElement).toHaveClass('bg-blue-100', 'ring-2', 'ring-blue-500', 'scale-105');
   });
 
   it('does not apply the frozen styles when isFrozen is false', () => {
-    const { container } = render(<Die {...defaultProps} value="⚀" isFrozen={false} />);
-    expect(container.firstChild).not.toHaveClass('bg-blue-100');
-    expect(container.firstChild).not.toHaveClass('ring-2');
-    expect(container.firstChild).not.toHaveClass('ring-blue-500');
-    expect(container.firstChild).not.toHaveClass('scale-105');
+    render(<Die {...defaultProps} value="⚀" isFrozen={false} />);
+    const dieElement = screen.getByRole('button');
+    expect(dieElement).not.toHaveClass('bg-blue-100');
+    expect(dieElement).not.toHaveClass('ring-2');
+    expect(dieElement).not.toHaveClass('ring-blue-500');
+    expect(dieElement).not.toHaveClass('scale-105');
   });
 
   it('handles click events', () => {
@@ -47,13 +49,14 @@ describe('Die', () => {
   });
 
   it('shows dragging state', () => {
-    const { container } = render(<Die {...defaultProps} value="⚀" isDragging={true} />);
-    expect(container.firstChild).toHaveClass('opacity-50', 'scale-110', 'shadow-2xl', 'rotate-3');
+    render(<Die {...defaultProps} value="⚀" isDragging={true} />);
+    const dieElement = screen.getByRole('button');
+    expect(dieElement).toHaveClass('opacity-50', 'scale-110', 'shadow-2xl', 'rotate-3');
   });
 
   it('shows drag over state', () => {
-    const { container } = render(<Die {...defaultProps} value="⚀" isDragOver={true} />);
-    const dieElement = container.firstChild;
+    render(<Die {...defaultProps} value="⚀" isDragOver={true} />);
+    const dieElement = screen.getByRole('button');
     expect(dieElement).toHaveClass('border-2', 'border-dashed', 'border-blue-500', 'bg-blue-50');
     expect(dieElement).toHaveTextContent(''); // value should not be shown when isDragOver is true
   });
@@ -84,8 +87,8 @@ describe('Die', () => {
     const minimalProps = {
       value: '⚀'
     };
-    const { container } = render(<Die {...minimalProps} />);
-    const dieElement = container.firstChild;
+    render(<Die {...minimalProps} />);
+    const dieElement = screen.getByRole('button');
     
     expect(dieElement).toHaveClass('bg-white');
     expect(dieElement).not.toHaveClass('opacity-50');
@@ -93,7 +96,7 @@ describe('Die', () => {
   });
 
   it('combines multiple states correctly', () => {
-    const { container } = render(
+    render(
       <Die 
         {...defaultProps} 
         value="⚀" 
@@ -101,15 +104,15 @@ describe('Die', () => {
         isDragging={true} 
       />
     );
-    const dieElement = container.firstChild;
+    const dieElement = screen.getByRole('button');
     
     expect(dieElement).toHaveClass('bg-blue-100', 'ring-2', 'ring-blue-500');
     expect(dieElement).toHaveClass('opacity-50', 'scale-110', 'shadow-2xl');
   });
 
   it('has correct base styles', () => {
-    const { container } = render(<Die {...defaultProps} value="⚀" />);
-    const dieElement = container.firstChild;
+    render(<Die {...defaultProps} value="⚀" />);
+    const dieElement = screen.getByRole('button');
     
     expect(dieElement).toHaveClass(
       'w-20', 

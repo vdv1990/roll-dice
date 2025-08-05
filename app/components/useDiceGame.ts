@@ -42,7 +42,10 @@ export const useDiceGame = () => {
   const handleDragEnter = (id: number) => { if (draggedId !== id) setDragOverId(id); };
   const handleDragEnd = () => { setDraggedId(null); setDragOverId(null); };
   const handleDrop = (targetId: number) => {
-    if (draggedId === null || draggedId === targetId) { handleDragEnd(); return; }
+    if (draggedId === null || draggedId === targetId) { 
+      handleDragEnd(); 
+      return; 
+    }
     const draggedIndex = dice.findIndex(d => d.id === draggedId);
     const targetIndex = dice.findIndex(d => d.id === targetId);
     const newDice = [...dice];

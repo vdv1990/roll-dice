@@ -47,7 +47,7 @@ describe('ToggleSwitch', () => {
     render(<ToggleSwitch isEnabled={true} onChange={() => {}} label="Test Toggle" />);
     const toggle = screen.getByRole('checkbox');
     
-    expect(toggle).toHaveAttribute('aria-checked', 'true');
-    expect(toggle.parentElement).toHaveAttribute('aria-label', 'Test Toggle');
+    expect(toggle).toBeChecked();
+    expect(screen.getByLabelText('Test Toggle')).toBeInTheDocument();
   });
 });
