@@ -14,10 +14,16 @@ const games: Game[] = [
     id: 'dice',
     title: 'Roll the Dice',
     description: 'A fun dice rolling game with customizable options and beautiful themes.',
-    imageUrl: '/dice-thumbnail.png', // We'll add this image
+    imageUrl: '/dice-thumbnail.png',
     route: '/'
   },
-  // Add more games here as they are developed
+  {
+    id: '5000',
+    title: '5000',
+    description: 'Classic dice game where players compete to reach 5000 points through strategic dice combinations.',
+    imageUrl: '/5000-thumbnail.png',
+    route: '/5000'
+  }
 ];
 
 export default function GamesPage() {
