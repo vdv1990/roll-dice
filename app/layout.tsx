@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import Link from 'next/link'; // Import the Link component
 import "./globals.css";
 
 const inter = Inter({
@@ -28,12 +29,14 @@ export default function RootLayout({
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               <div className="flex space-x-8">
-                <a href="/" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">
+                {/* Replace <a> with <Link> */}
+                <Link href="/" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">
                   Home
-                </a>
-                <a href="/games" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">
+                </Link>
+                {/* Replace <a> with <Link> */}
+                <Link href="/games" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">
                   Games
-                </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -36,12 +36,12 @@ export default function GamesPage() {
           {games.map((game) => (
             <Link href={game.route} key={game.id} className="block">
               <div className="bg-white rounded-lg shadow-xl overflow-hidden transition-transform hover:scale-105">
-                <div className="aspect-w-16 aspect-h-9 bg-gray-200">
+                <div className="relative pb-[56.25%] bg-gray-200">
                   {/* Add a fallback image or loading state */}
                   <img
                     src={game.imageUrl}
                     alt={game.title}
-                    className="w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
                 <div className="p-4">
