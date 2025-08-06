@@ -1,4 +1,3 @@
-import { DiceThumbnail } from '../components/DiceThumbnail';
 import sharp from 'sharp';
 import fs from 'fs/promises';
 import path from 'path';
