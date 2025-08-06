@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import "./globals.css";
 
 const inter = Inter({
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
         <Analytics />
+        <SpeedInsights />
         <nav className="bg-gray-800 text-white">
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-center justify-between h-16">
