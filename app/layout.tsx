@@ -19,9 +19,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} antialiased`}
-      >
+      <body className={`${inter.className} antialiased`}>
+        <nav className="bg-gray-800 text-white">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex space-x-8">
+                <a href="/" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">
+                  Home
+                </a>
+                <a href="/games" className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-700">
+                  Games
+                </a>
+              </div>
+            </div>
+          </div>
+        </nav>
         {children}
       </body>
     </html>
